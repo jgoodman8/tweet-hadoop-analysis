@@ -10,13 +10,13 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 
 import java.io.IOException;
 
-public class TweetInputFormat extends FileInputFormat<Text, Tweet> {
+public class TweetInputFormat { //extends FileInputFormat<Text, Tweet> {
 
-    @Override
-    public RecordReader<Text, Tweet> createRecordReader(InputSplit inputSplit, TaskAttemptContext context)
-            throws IOException, InterruptedException {
-        return new TweetReader();
-    }
+//    @Override
+//    public RecordReader<Text, Tweet> createRecordReader(InputSplit inputSplit, TaskAttemptContext context)
+//            throws IOException, InterruptedException {
+//        return new TweetReader();
+//    }
 
 
 //    public List<InputSplit> getSplits(JobContext var1) throws IOException, InterruptedException {

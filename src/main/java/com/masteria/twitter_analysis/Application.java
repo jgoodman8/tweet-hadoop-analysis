@@ -5,11 +5,12 @@ import org.apache.hadoop.util.ToolRunner;
 
 public class Application {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         int executionResult;
 
         try {
             executionResult = ToolRunner.run(new Configuration(), new TwitterAnalysisJob(), args);
+
             System.exit(executionResult);
         } catch (Exception globalException) {
             globalException.printStackTrace();
