@@ -1,5 +1,6 @@
 package com.masteria.twitter_analysis;
 
+import com.masteria.twitter_analysis.io.TweetInputFormat;
 import com.masteria.twitter_analysis.io.TweetOutputFormat;
 import com.masteria.twitter_analysis.mapper.TweetCountMapper;
 import com.masteria.twitter_analysis.mapper.TweetKeyPartitioner;
@@ -14,7 +15,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 
@@ -33,7 +33,7 @@ public class TwitterAnalysisJob extends Configured implements Tool {
         job.setJarByClass(TwitterAnalysisJob.class);
         job.setJobName("TweetsAnalysis");
 
-        job.setInputFormatClass(TextInputFormat.class); // TweetInputFormat
+        job.setInputFormatClass(TweetInputFormat.class);
         job.setOutputFormatClass(TweetOutputFormat.class);
 
         job.setPartitionerClass(TweetKeyPartitioner.class);
