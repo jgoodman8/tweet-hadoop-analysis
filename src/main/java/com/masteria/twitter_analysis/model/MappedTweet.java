@@ -19,12 +19,6 @@ public class MappedTweet implements Writable {
         this.timestamp = new LongWritable();
     }
 
-    public MappedTweet(MappedTweet origin) {
-        this.count = origin.count;
-        this.reTweets = origin.reTweets;
-        this.timestamp = origin.timestamp;
-    }
-
     public MappedTweet(int count, long reTweets, long timestamp) {
         this.count = new IntWritable(count);
         this.reTweets = new LongWritable(reTweets);

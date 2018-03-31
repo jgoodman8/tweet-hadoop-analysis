@@ -1,9 +1,11 @@
 package com.masteria.twitter_analysis;
 
+import com.masteria.twitter_analysis.io.TweetOutputFormat;
 import com.masteria.twitter_analysis.mapper.TweetCountMapper;
 import com.masteria.twitter_analysis.mapper.TweetKeyPartitioner;
 import com.masteria.twitter_analysis.model.MappedTweet;
 import com.masteria.twitter_analysis.model.TweetKey;
+import com.masteria.twitter_analysis.model.UserStats;
 import com.masteria.twitter_analysis.reducer.TweetCountReducer;
 import com.masteria.twitter_analysis.reducer.TweetKeyGroupComparator;
 import com.masteria.twitter_analysis.reducer.TweetKeySortComparator;
@@ -14,7 +16,6 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class TwitterAnalysisJob extends Configured implements Tool {
         job.setJobName("TweetsAnalysis");
 
         job.setInputFormatClass(TextInputFormat.class); // TweetInputFormat
-        job.setOutputFormatClass(TextOutputFormat.class);
+        job.setOutputFormatClass(TweetOutputFormat.class);
 
         job.setPartitionerClass(TweetKeyPartitioner.class);
 
@@ -47,7 +48,7 @@ public class TwitterAnalysisJob extends Configured implements Tool {
         job.setSortComparatorClass(TweetKeySortComparator.class);
 
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(Text.class);
+        job.setOutputValueClass(UserStats.class);
 
         job.setNumReduceTasks(2);
 
@@ -57,10 +58,8 @@ public class TwitterAnalysisJob extends Configured implements Tool {
     }
 
     private void setFileDirectories(Job job, String[] args) throws IOException {
-//        Path inputPath = args[0] == null ? new Path("/root/Documents/cache-1000000-json") : new Path(args[0]);
-//        Path outputPath = args[1] == null ? new Path("output_tweets") : new Path(args[1]);
-        Path inputPath = new Path("/root/Documents/cache-1000000-json");
-        Path outputPath = new Path("output_tweets");
+        Path inputPath = new Path(args[0]);
+        Path outputPath = new Path(args[1]);
         outputPath.getFileSystem(getConf()).delete(outputPath,true);
 
         FileInputFormat.addInputPath(job, inputPath);

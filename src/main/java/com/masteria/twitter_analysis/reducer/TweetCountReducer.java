@@ -2,6 +2,7 @@ package com.masteria.twitter_analysis.reducer;
 
 import com.masteria.twitter_analysis.model.MappedTweet;
 import com.masteria.twitter_analysis.model.TweetKey;
+import com.masteria.twitter_analysis.model.UserStats;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -9,10 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TweetCountReducer extends Reducer<TweetKey, MappedTweet, Text, Text> {
+public class TweetCountReducer extends Reducer<TweetKey, MappedTweet, Text, UserStats> {
 
     private Text outputKey = new Text();
-    private Text outputValue = new Text();
+    private UserStats outputValue = new UserStats();
 
     @Override
     public void reduce(TweetKey inputKey, Iterable<MappedTweet> inputValues, Context context)
@@ -30,7 +31,9 @@ public class TweetCountReducer extends Reducer<TweetKey, MappedTweet, Text, Text
         }
 
         this.outputKey.set(inputKey.getUser());
-        this.outputValue.set(tweetsPerUser + "," + volumeMomentum + "," + popularityMomentum);
+        this.outputValue.setTweetsCount(tweetsPerUser);
+        this.outputValue.setVolumeMomentum(volumeMomentum);
+        this.outputValue.setPopularityMomentum(popularityMomentum);
 
         context.write(this.outputKey, this.outputValue);
     }
