@@ -41,7 +41,9 @@ public class TweetWriter extends RecordWriter<Text, UserStats> {
     }
 
     public synchronized void close(TaskAttemptContext context) throws IOException {
-        outputStream.close();
+        if (this.outputStream != null) {
+            this.outputStream.close();
+        }
     }
 
     private String makeOutputRegistry(Text key, UserStats value) {

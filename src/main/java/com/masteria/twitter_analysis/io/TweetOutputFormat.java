@@ -14,14 +14,14 @@ import java.io.IOException;
 
 public class TweetOutputFormat extends TextOutputFormat<Text, UserStats> {
 
-    private static final String EXTENSION = "csv";
     private static final String DEFAULT_FILE_NAME = "stats";
 
     public RecordWriter<Text, UserStats> getRecordWriter(TaskAttemptContext taskAttemptContext)
             throws IOException, InterruptedException {
 
         Path outputDir = FileOutputFormat.getOutputPath(taskAttemptContext);
-        Path outputFilePath = new Path(outputDir.getName() + "/" + DEFAULT_FILE_NAME + "." + EXTENSION);
+        Path outputFilePath = new Path(outputDir.getName() + "/" + DEFAULT_FILE_NAME + "_" +
+                taskAttemptContext.getTaskAttemptID().getTaskID());
 
         FileSystem fileSystem = outputFilePath.getFileSystem(taskAttemptContext.getConfiguration());
         FSDataOutputStream outputStream = fileSystem.create(outputFilePath, false);
