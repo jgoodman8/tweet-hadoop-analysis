@@ -55,23 +55,18 @@ public class TweetReader extends RecordReader<LongWritable, Tweet> {
 
     @Override
     public boolean nextKeyValue() throws IOException {
-        this.key.set(this.currentPosition);
-
         if (this.currentPosition > this.splitEnd) {
-            this.key = null;
-            this.value = null;
-            return false;
+            return this.resetKeyValuePair();
         }
 
         int lineLength = this.lineReader.readLine(this.line);
         if (lineLength == 0) {
-            this.key = null;
-            this.value = null;
-            return false;
+            return this.resetKeyValuePair();
         }
 
-        this.currentPosition += lineLength;
+        this.key.set(this.currentPosition);
         this.value = mapper.readValue(this.line.toString(), Tweet.class);
+        this.currentPosition += lineLength;
 
         return true;
     }
@@ -100,5 +95,11 @@ public class TweetReader extends RecordReader<LongWritable, Tweet> {
         if (this.lineReader != null) {
             this.fileSystemInput.close();
         }
+    }
+
+    private boolean resetKeyValuePair() {
+        this.key = null;
+        this.value = null;
+        return false;
     }
 }

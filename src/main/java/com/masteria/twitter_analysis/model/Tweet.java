@@ -3,6 +3,9 @@ package com.masteria.twitter_analysis.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -14,41 +17,29 @@ public class Tweet {
     private String user;
 
     @JsonProperty("created_at")
-    private String timestamp;
+    private String createdAt;
 
     @JsonProperty("retweet_count")
     private long reTweets;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
 
     public String getUser() {
         return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
     }
 
     public long getReTweets() {
         return reTweets;
     }
 
-    public void setReTweets(long reTweets) {
-        this.reTweets = reTweets;
+    public long getTimestamp() {
+        try {
+            Date parseDate = this.dateFormat.parse(this.createdAt);
+            return parseDate.getTime();
+        } catch (ParseException exception) {
+            System.out.println(exception.getMessage());
+            return 0;
+        }
     }
 
     @Override
@@ -56,13 +47,13 @@ public class Tweet {
         return "Tweet{" +
                 "id='" + id + '\'' +
                 ", user='" + user + '\'' +
-                ", timestamp='" + timestamp + '\'' +
+                ", createdAt='" + createdAt + '\'' +
                 ", reTweets=" + reTweets +
                 '}';
     }
 
     @JsonProperty("user")
-    private void getScreenNameFromUserObject(Map<String, String> brand) {
-        this.setUser(brand.get("screen_name"));
+    private void getScreenNameFromUserObject(Map<String, String> stringMap) {
+        this.user = stringMap.get("screen_name");
     }
 }
