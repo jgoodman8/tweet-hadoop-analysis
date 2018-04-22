@@ -41,7 +41,7 @@ Ejecutando el siguiente comando deberíamos visualizar la nueva carpeta creada.
 hadoop fs -ls
 ```
 
-Finalmente, añadimos el archivo cache-1000000-json.gz a HDFS.
+Finalmente, añadimos el archivo cache-1000000.json a HDFS.
 
 ```{bash}
 hadoop fs -put <ruta-al-archivo> tweets
@@ -65,7 +65,7 @@ hadoop version
 Para ejecutar el código será suficiente con el siguiente comando (se sobreentiende que nos encontramos en la raíz del proyecto).
 
 ```{bash}
-hadoop jar target/twitter_analysis-1.0-SNAPSHOT-jar-with-dependencies.jar tweets/cache-1000000-json.gz tweets/out
+hadoop jar target/twitter_analysis-1.0-SNAPSHOT-jar-with-dependencies.jar tweets/cache-1000000.json tweets/out
 ```
 
 Una vez ejecutada la aplicación, comprobamos que se hayan generado los archivos en el directorio de salida `tweets/out`.
