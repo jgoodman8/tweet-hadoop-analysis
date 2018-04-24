@@ -11,6 +11,15 @@ import java.io.IOException;
 
 public class TweetInputFormat extends FileInputFormat<LongWritable, Tweet> {
 
+    /**
+     * Sets the TweetReader as RecordReader
+     *
+     * @param inputSplit
+     * @param context
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @Override
     public RecordReader<LongWritable, Tweet> createRecordReader(InputSplit inputSplit, TaskAttemptContext context)
             throws IOException, InterruptedException {

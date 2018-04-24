@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * This class defines a object used to map a JSON object and get only the properties defined on this class (id, user,
+ * number of re-tweets, and username)
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Tweet {
 

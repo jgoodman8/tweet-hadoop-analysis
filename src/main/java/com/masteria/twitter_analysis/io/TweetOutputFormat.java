@@ -16,6 +16,14 @@ public class TweetOutputFormat extends TextOutputFormat<Text, UserStats> {
 
     private static final String DEFAULT_FILE_NAME = "stats";
 
+    /**
+     * Sets and creates the output file for each reducer output partition
+     *
+     * @param taskAttemptContext
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public RecordWriter<Text, UserStats> getRecordWriter(TaskAttemptContext taskAttemptContext)
             throws IOException, InterruptedException {
 

@@ -14,6 +14,16 @@ public class TweetCountMapper extends Mapper<LongWritable, Tweet, TweetKey, Mapp
     private TweetKey outputKey = new TweetKey();
     private MappedTweet outputValue = new MappedTweet();
 
+    /**
+     * On this stage, a tuple (key, value) is written on the context. It takes username and timestamp as key and
+     * the number of re-tweets, timestamp and 1 as output value.
+     *
+     * @param inputKey   Tweet number
+     * @param inputValue Tweet object mapped from the JSON input
+     * @param context    Map context
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @Override
     public void map(LongWritable inputKey, Tweet inputValue, Context context) throws IOException, InterruptedException {
 

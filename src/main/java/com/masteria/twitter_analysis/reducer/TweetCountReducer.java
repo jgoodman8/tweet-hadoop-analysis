@@ -15,6 +15,19 @@ public class TweetCountReducer extends Reducer<TweetKey, MappedTweet, Text, User
     private Text outputKey = new Text();
     private UserStats outputValue = new UserStats();
 
+    /**
+     * On this stage, we receive a collection of MappedTweet objects per each TweetKey. By using the
+     * methods defined on this class, the number of tweets per user and the metrics volume momentum and popularity
+     * momentum are calculated.
+     * <p>
+     * This method writes to the context a new output tuple: username as key and a UserStats object as value
+     *
+     * @param inputKey    A key object as a TweetKey object
+     * @param inputValues A iterable collection of MappedTweet objects related to the same username
+     * @param context     The Reduce context
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @Override
     public void reduce(TweetKey inputKey, Iterable<MappedTweet> inputValues, Context context)
             throws IOException, InterruptedException {
@@ -34,6 +47,12 @@ public class TweetCountReducer extends Reducer<TweetKey, MappedTweet, Text, User
         context.write(this.outputKey, this.outputValue);
     }
 
+    /**
+     * Counts the number of tweets made by user, for the provided collection
+     *
+     * @param collection
+     * @return
+     */
     private int getTweetsPerUser(MappedTweetCollection collection) {
         int total = 0;
 
@@ -44,6 +63,12 @@ public class TweetCountReducer extends Reducer<TweetKey, MappedTweet, Text, User
         return total;
     }
 
+    /**
+     * For a given collection, calculates the VolumeMomentum metric
+     *
+     * @param lastTweets
+     * @return
+     */
     private double getVolumeMomentum(MappedTweetCollection lastTweets) {
         if (lastTweets.size() < 2) {
             return 0;
@@ -61,6 +86,12 @@ public class TweetCountReducer extends Reducer<TweetKey, MappedTweet, Text, User
         return volumeMomentum;
     }
 
+    /**
+     * For a given collection, calculates the PopularityMomentum metric
+     *
+     * @param lastTweets
+     * @return
+     */
     private double getPopularityMomentum(MappedTweetCollection lastTweets) {
         if (lastTweets.size() < 2) {
             return 0;
@@ -78,6 +109,13 @@ public class TweetCountReducer extends Reducer<TweetKey, MappedTweet, Text, User
         return popularityMomentum;
     }
 
+    /**
+     * Copies and converts the iterable collection of values that the reducer provides, to a collection easily operable.
+     * This is also needed due we lose this iterable once it is iterated
+     *
+     * @param inputValues An iterable collection of MappedTweet objects
+     * @return A MappedTweetCollection with the same items as the input iterable
+     */
     private MappedTweetCollection toMappedTweetCollection(Iterable<MappedTweet> inputValues) {
         ArrayList<MappedTweet> tweets = new ArrayList<MappedTweet>();
 

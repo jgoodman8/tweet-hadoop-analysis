@@ -6,6 +6,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+/**
+ * This class defines the object used as key output at the Map stage and, thus, as input key at the Reduce stage.
+ */
 public class TweetKey implements WritableComparable<TweetKey> {
 
     private String user;

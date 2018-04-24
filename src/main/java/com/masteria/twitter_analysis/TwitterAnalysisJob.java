@@ -23,10 +23,13 @@ import java.io.IOException;
 public class TwitterAnalysisJob extends Configured implements Tool {
 
     /**
-     * TODO: Add JavaDoc
-     * @param args
-     * @return
-     * @throws Exception
+     * Sets up a Hadoop job with custom reader, writer. Also custom grouping, partitioner and key comparator are set
+     *
+     * @param args Contains the input and output file routes
+     * @return It will return 1 when the execution is completed
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InterruptedException
      */
     public int run(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         Job job = new Job(getConf());
@@ -57,10 +60,17 @@ public class TwitterAnalysisJob extends Configured implements Tool {
         return job.waitForCompletion(true) ? 0 : 1;
     }
 
+    /**
+     * Sets the input/output paths to the given Hadoop job
+     *
+     * @param job  Hadoop job to configure
+     * @param args Contains the input and output file routes
+     * @throws IOException
+     */
     private void setFileDirectories(Job job, String[] args) throws IOException {
         Path inputPath = new Path(args[0]);
         Path outputPath = new Path(args[1]);
-        outputPath.getFileSystem(getConf()).delete(outputPath,true);
+        outputPath.getFileSystem(getConf()).delete(outputPath, true);
 
         FileInputFormat.addInputPath(job, inputPath);
         FileOutputFormat.setOutputPath(job, outputPath);

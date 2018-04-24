@@ -8,6 +8,10 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+/**
+ * This class is used as object at the output Map Stage. It encapsulates the timestamp, number of re-tweets and a
+ * count property for every tweet processed.
+ */
 public class MappedTweet implements Writable {
 
     private IntWritable count;

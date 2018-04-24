@@ -16,6 +16,7 @@ public class TweetWriter extends RecordWriter<Text, UserStats> {
     private static final String CSV_SEPARATOR = ",";
     private static final String UTF_8 = "UTF-8";
     private static final byte[] NEW_LINE;
+
     static {
         try {
             NEW_LINE = "\n".getBytes(UTF_8);
@@ -28,6 +29,14 @@ public class TweetWriter extends RecordWriter<Text, UserStats> {
         this.outputStream = dataOutputStream;
     }
 
+    /**
+     * Defines the output format and writes every outgoing tuple from the reduce stage.
+     *
+     * @param key
+     * @param value
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @Override
     public void write(Text key, UserStats value) throws IOException, InterruptedException {
         if (key == null) {
@@ -40,12 +49,26 @@ public class TweetWriter extends RecordWriter<Text, UserStats> {
         outputStream.write(NEW_LINE);
     }
 
+    /**
+     * Closes access to the data stream used by this record writer
+     *
+     * @param context
+     * @throws IOException
+     */
     public synchronized void close(TaskAttemptContext context) throws IOException {
         if (this.outputStream != null) {
             this.outputStream.close();
         }
     }
 
+    /**
+     * Given a key-value tuple, it converts the data to the required CSV format.
+     * Format: username,tweetsCount,volumeMomentum,popularityMomentum
+     *
+     * @param key
+     * @param value
+     * @return
+     */
     private String makeOutputRegistry(Text key, UserStats value) {
         return key.toString() + CSV_SEPARATOR + value.getTweetsCount().get() + CSV_SEPARATOR +
                 value.getVolumeMomentum() + CSV_SEPARATOR + value.getPopularityMomentum();

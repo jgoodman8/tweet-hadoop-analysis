@@ -10,6 +10,15 @@ public class TweetKeySortComparator extends WritableComparator {
         super(TweetKey.class, true);
     }
 
+    /**
+     * Compares and sorts the TweetKey objects by username and timestamp. Thus, it will make an ascending sort by
+     * username and timestamp. If both usernames are not equals, timestamp is not used. However, if usernames are
+     * equals, timestamp is used to compare keys.
+     *
+     * @param a
+     * @param b
+     * @return
+     */
     @Override
     public int compare(WritableComparable a, WritableComparable b) {
         TweetKey keyA = (TweetKey) a;
