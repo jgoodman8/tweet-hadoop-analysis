@@ -93,5 +93,4 @@ A continuación de detallan las estadísicas obtenidas para dos de los usuarios:
     - Volume momentum: 0.5898701985005119
     - Popularity momentum: 0.0
 
-## Diseño de Arquitectura
 
